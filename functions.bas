@@ -32,8 +32,8 @@ Sub debugD(i As Ubyte)
 End Sub
 
 Sub getCurrentSpritesPositions()
-    protaY = Peek SPRITELIN(protaSprite)
-    protaX = Peek SPRITECOL(protaSprite)
+    protaY = Peek SPRITELIN(PROTA_SPRITE)
+    protaX = Peek SPRITECOL(PROTA_SPRITE)
 End Sub
 
 Function getCell(row As Ubyte, col As Ubyte) As Ubyte
@@ -61,12 +61,12 @@ Function isJumping() as Ubyte
 End Function
 
 Function CheckCollision(nextCol As Ubyte, nextLin As Ubyte) As Ubyte
-    Dim currentLin As Ubyte = Peek SPRITELIN(protaSprite)
-    Dim currentCol As Ubyte = Peek SPRITECOL(protaSprite)
+    ' Dim currentLin As Ubyte = Peek SPRITELIN(PROTA_SPRITE)
+    ' Dim currentCol As Ubyte = Peek SPRITECOL(PROTA_SPRITE)
     
-    If nextCol = currentCol And nextLin = currentLin Then
-        Return 0
-    End If
+    ' If nextCol = currentCol And nextLin = currentLin Then
+    '     Return 0
+    ' End If
     
     ' Convertir las coordenadas del sprite al sistema de tiles
     Dim tileRow As Ubyte = (nextLin / 16) - 1

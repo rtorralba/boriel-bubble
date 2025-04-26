@@ -6,6 +6,7 @@
 #include "definitions.bas"
 #include "music.bas"
 #include "functions.bas"
+#include "bullet.bas"
 #include "draw.bas"
 #include "protaMovement.bas"
 #include "screensFlow.bas"

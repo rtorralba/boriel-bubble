@@ -48,7 +48,7 @@ Sub playGame()
     ' Print AT 22,0;"abajo"
     
     NIRVANAhalt()
-    NIRVANAspriteT(0, protaTile, protaY, protaX)
+    NIRVANAspriteT(PROTA_SPRITE, protaTile, protaY, protaX)
     
     Do
         waitretrace
@@ -57,6 +57,7 @@ Sub playGame()
         keyboardListen()
         checkIsJumping()
         gravity()
+        moveBullet()
         drawSprites()
     Loop
 End Sub

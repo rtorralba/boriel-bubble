@@ -1,4 +1,7 @@
 Sub keyboardListen()
+    If MultiKeys(keyArray(FIRE)) = 0 Then
+        noKeyPressedForShoot = 1
+    End If
     If kempston Then
         Dim n As Ubyte = In(31)
         If n bAND %10 Then leftKey()
@@ -27,9 +30,9 @@ Sub leftKey()
         protaDirectionChanged = 1
     End If
     protaDirection = 0
-
-    If CheckCollision(protaX - 1, protaY) Then return
-
+    
+    If CheckCollision(protaX - 1, protaY) Then Return
+    
     If protaX > 0 Then
         protaX = protaX - 1
     Else
@@ -41,9 +44,9 @@ Sub rightKey()
         protaDirectionChanged = 1
     End If
     protaDirection = 1
-
-    If CheckCollision(protaX + 1, protaY) Then return
-
+    
+    If CheckCollision(protaX + 1, protaY) Then Return
+    
     If protaX < 29 Then
         protaX = protaX + 1
     Else
@@ -60,19 +63,20 @@ Sub downKey()
     ' End If
 End Sub
 Sub fireKey()
+    shoot()
 End Sub
 
 Sub gravity()
     If isJumping() Then Return
-
-    Dim currentCol As Ubyte = Peek SPRITECOL(protaSprite)
-    Dim currentLin As Ubyte = Peek SPRITELIN(protaSprite)
-
+    
+    Dim currentCol As Ubyte = Peek SPRITECOL(PROTA_SPRITE)
+    Dim currentLin As Ubyte = Peek SPRITELIN(PROTA_SPRITE)
+    
     If CheckCollision(protaX, protaY + 2) Then
         landed = 1
         Return
     End If
-
+    
     If protaY < 168 Then
         protaY = protaY + 8
     Else
@@ -81,7 +85,7 @@ Sub gravity()
 End Sub
 
 Sub jump()
-    If jumpCurrentKey = jumpStopValue and landed Then
+    If jumpCurrentKey = jumpStopValue And landed Then
         landed = 0
         jumpCurrentKey = 0
     End If
@@ -99,4 +103,42 @@ Sub checkIsJumping()
     Else
         jumpCurrentKey = jumpStopValue ' stop jumping
     End If
+End Sub
+
+Sub shoot()
+    If Not noKeyPressedForShoot Then Return
+    noKeyPressedForShoot = 0
+    
+    If bulletPositionX <> 0 Then Return
+    
+    currentBulletSpriteId = BULLET_SPRITE_RIGHT_ID
+    If protaDirection Then
+        currentBulletSpriteId = BULLET_SPRITE_RIGHT_ID
+        bulletPositionX = protaX
+        If BULLET_DISTANCE <> 0 Then
+            If protaX + BULLET_DISTANCE > maxXScreenRight Then
+                bulletEndPositionX = maxXScreenRight
+            Else
+                bulletEndPositionX = protaX + BULLET_DISTANCE
+            End If
+        Else
+            bulletEndPositionX = maxXScreenRight
+        End If
+    Elseif protaDirection = 0
+        currentBulletSpriteId = BULLET_SPRITE_LEFT_ID
+        bulletPositionX = protaX
+        If BULLET_DISTANCE <> 0 Then
+            If protaX - BULLET_DISTANCE < maxXScreenLeft Then
+                bulletEndPositionX = maxXScreenLeft
+            Else
+                bulletEndPositionX = protaX - BULLET_DISTANCE
+            End If
+        Else
+            bulletEndPositionX = maxXScreenLeft
+        End If
+    End If
+    
+    bulletPositionY = protaY
+    bulletDirection = protaDirection
+    ' BeepFX_Play(2)
 End Sub
