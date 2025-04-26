@@ -1,0 +1,16 @@
+**/output/*
+*.zx0
+*.bin
+*.pdf
+src/bin/zxbasic/*
+*.tmp.png
+*.tmp.png.scr
+dist
+*.tiled-session
+.vscode
+**/venv/*
+Spectral.sav
+*.z80
+src/bin/.Spectral/*
+**/__pycache__/*
+*.gif
