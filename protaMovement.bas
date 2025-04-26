@@ -9,19 +9,24 @@ Sub keyboardListen()
         If n bAND %1000 Then upKey()
         If n bAND %100 Then downKey()
         If n bAND %10000 Then fireKey()
-        #ifdef IDLE_ENABLED
-            If n = 0 Then
-                If protaLoopCounter < IDLE_TIME Then protaLoopCounter = protaLoopCounter + 1
-            Else
-                protaLoopCounter = 0
-            End If
-        #endif
+
+        If n = 0 Then
+            If protaLoopCounter < IDLE_TIME Then protaLoopCounter = protaLoopCounter + 1
+        Else
+            protaLoopCounter = 0
+        End If
     Else
         If MultiKeys(keyArray(LEFT))<>0 Then leftKey()
         If MultiKeys(keyArray(RIGHT))<>0 Then rightKey()
         If MultiKeys(keyArray(UP))<>0 Then upKey()
         If MultiKeys(keyArray(DOWN))<>0 Then downKey()
         If MultiKeys(keyArray(FIRE))<>0 Then fireKey()
+
+        If MultiKeys(keyArray(LEFT))=0 And MultiKeys(keyArray(RIGHT))=0 And MultiKeys(keyArray(UP))=0 And MultiKeys(keyArray(DOWN))=0 And MultiKeys(keyArray(FIRE))=0 Then
+            If protaLoopCounter < IDLE_TIME Then protaLoopCounter = protaLoopCounter + 1
+        Else
+            protaLoopCounter = 0
+        End If
     End If
 End Sub
 
@@ -141,4 +146,28 @@ Sub shoot()
     bulletPositionY = protaY
     bulletDirection = protaDirection
     ' BeepFX_Play(2)
+End Sub
+
+Sub checkIdle()
+    If protaLoopCounter >= IDLE_TIME Then
+        If jumpCurrentKey <> jumpStopValue Then Return
+
+        If framec - lastFrameIdle >= IDLE_ANIMATION_PERIOD Then
+            NIRVANAhalt()
+            If protaDirection Then
+                If Peek SPRITEVAL(PROTA_SPRITE) = 51 Then
+                    NIRVANAspriteT(PROTA_SPRITE, 52, Peek SPRITELIN(PROTA_SPRITE), Peek SPRITECOL(PROTA_SPRITE))
+                Else
+                    NIRVANAspriteT(PROTA_SPRITE, 51, Peek SPRITELIN(PROTA_SPRITE), Peek SPRITECOL(PROTA_SPRITE))
+                End If
+            Else
+                If Peek SPRITEVAL(PROTA_SPRITE) = 54 Then
+                    NIRVANAspriteT(PROTA_SPRITE, 55, Peek SPRITELIN(PROTA_SPRITE), Peek SPRITECOL(PROTA_SPRITE))
+                Else
+                    NIRVANAspriteT(PROTA_SPRITE, 54, Peek SPRITELIN(PROTA_SPRITE), Peek SPRITECOL(PROTA_SPRITE))
+                End If
+            End If
+            lastFrameIdle = framec
+        End If
+    End If
 End Sub

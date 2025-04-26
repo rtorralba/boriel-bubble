@@ -20,7 +20,11 @@ Dim keyArray(4) As Uinteger
 Dim framec As Ubyte AT 23672
 
 Dim lastFrameProta As Ubyte = 0
-Dim lastFrameProtaMovement As Ubyte = 0
+Const PROTA_ANIMATION_PERIOD As Ubyte = 4
+
+Dim lastFrameIdle As Ubyte = 0
+Const IDLE_ANIMATION_PERIOD As Ubyte = 20
+
 Dim protaTile As Ubyte = 50
 
 Dim protaY As Ubyte = 0
@@ -38,8 +42,6 @@ Const BULLET_SPRITE As Ubyte = 5
 Dim protaDirection As Ubyte = 1
 Dim protaDirectionChanged As Ubyte = 0
 
-Const PROTA_ANIMATION_PERIOD As Ubyte = 4
-
 Dim noKeyPressedForShoot As Ubyte = 1
 
 Const BURST_SPRITE_ID As Ubyte = 16
@@ -55,3 +57,6 @@ Dim bulletPositionY As Ubyte = 0
 Dim bulletDirection As Ubyte = 0
 Dim bulletEndPositionX As Ubyte = 0
 Dim bulletEndPositionY As Ubyte = 0
+
+Dim protaLoopCounter As Ubyte = 0
+const IDLE_TIME as ubyte = 20

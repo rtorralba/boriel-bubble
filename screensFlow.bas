@@ -55,6 +55,7 @@ Sub playGame()
         
         getCurrentSpritesPositions()
         keyboardListen()
+        checkIdle()
         checkIsJumping()
         gravity()
         moveBullet()
